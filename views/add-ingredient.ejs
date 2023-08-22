@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add New Ingredient</title>
+</head>
+<body>
+  <h1>Add New Ingredient</h1>
+  <form action="/add-ingredient" method="POST">
+    <label for="productSelect">Select a Product:</label>
+    <select id="productSelect" name="productName">
+      <% products.forEach(product => { %>
+        <option value="<%= product.name %>"><%= product.name %></option>
+      <% }); %>
+    </select>
+  
+    <label for="typeSelect">Type of Ingredient:</label>
+    <select id="typeSelect" name="ingredientType">
+      <option value="Штук/и">Units</option>
+      <option value="Грамм">Grams</option>
+      <option value="Миллилитров">Milliliters</option>
+    </select>
+  
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" name="amount" required>
+  
+    <button type="submit">Add Ingredient</button>
+  </form>
+  
+    <button type="submit">Add Ingredient</button>
+  </form>
+  <a href="/">Back to Component List</a>
+</body>
+</html>

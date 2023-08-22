@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ingredients List</title>
+</head>
+<body>
+  <h1>Ingredients for <%= dishName %></h1>
+  <table border="1">
+    <tr>
+      <th>Product</th>
+      <th>Amount</th>
+      <th>Cost</th>
+    </tr>
+    <% ingredients.forEach(ingredient => { %>
+      <tr>
+        <td><%= ingredient.product %></td>
+        <td><%= ingredient.amount %> <%= ingredient.type %></td>
+        <td><%= ingredient.cost.toFixed(2) %> RUB</td>
+      </tr>
+    <% }); %>
+  </table>
+  <a href="/">Back to Dish List</a>
+  <a href="/add-ingredient">Add Ingredient</a>
+</body>
+</html>

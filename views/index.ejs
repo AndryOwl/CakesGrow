@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Component List</title>
+  <!-- Include Axios via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <h1>Список Тортов</h1>
+  <form id="select-form">
+    <label for="dish-select">Select a Dish:</label>
+    <select id="dish-select" name="dish">
+      <% jsonData.forEach(component => { %>
+        <option value="<%= component.id %>"><%= component.name %></option>
+      <% }); %>
+    </select>
+    
+
+    <button id="view-ingredients-button" type="button">View Ingredients</button>
+  </form>
+  <div id="ingredients-container"></div>
+  <a href="/">Back to Dish List</a>
+  <a href="/add-ingredient">Add Ingredient</a>
+  <a href="/add">Добавить новый Торт</a>
+
+  <!-- New JavaScript code here -->
+  <script>
+    document.getElementById('view-ingredients-button').addEventListener('click', async () => {
+      const dishSelect = document.getElementById('dish-select');
+      const selectedDishId = dishSelect.value;
+
+      if (selectedDishId) {
+        // Redirect to the ingredients page with the selected dish ID
+        window.location.href = '/ingredients/' + selectedDishId;
+      }
+    });
+  </script>
+</body>
+</html>
