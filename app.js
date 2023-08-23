@@ -46,6 +46,21 @@ app.post('/add', (req, res) => {
   res.redirect('/');
 });
 
+app.get('/products', (req, res) => {
+  // Read the products from products.json
+  fs.readFile('./products.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading products.json:', err);
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
+
+    const products = JSON.parse(data);
+    res.render('products', { products });
+  });
+});
+
+
 // Route to add ingredients
 app.get('/ingredients/:dishId', (req, res) => {
   const dishId = req.params.dishId;

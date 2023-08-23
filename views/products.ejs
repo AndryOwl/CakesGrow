@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products List</title>
+</head>
+<body>
+  <h1>Products List</h1>
+  <table border="1">
+    <tr>
+      <th>Название Продукта</th>
+      <th>Цена В Рублях</th>
+      <th>Кол-во</th>
+      <th>Тип измерения</th>
+    </tr>
+    <% products.forEach(product => { %>
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= product.cost %></td>
+        <td><%= product.amount %></td>
+        <td><%= product.type %></td>
+      </tr>
+    <% }); %>
+  </table>
+  <a href="/">Вернуться на экран выбора Тортов</a>
+</body>
+</html>
