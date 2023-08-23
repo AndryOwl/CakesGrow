@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Product</title>
+</head>
+<body>
+  <h1>Add Product</h1>
+  <form action="/add-product" method="POST">
+    <label for="name">Нименование продкута: </label>
+    <input type="text" id="name" name="name" required><br>
+    <label for="cost">Цена: </label>
+    <input type="number" id="cost" name="cost" step="0.01" required><br>
+    <label for="amount">Кол-во продкута: </label>
+    <input type="number" id="amount" name="amount" step="0.01" required><br>
+    <label for="type">Тип Измерения: </label>
+    <select id="type" name="type">
+        <option value="Штук/и">Штук/и</option>
+        <option value="Грамм">Граммы</option>
+        <option value="Миллилитров">Миллилитры</option>
+    </select><br>
+    <button type="submit">Add</button>
+  </form>
+  <br>
+  <a href="/products">Вернуться к списку Продуктов</a>
+</body>
+</html>

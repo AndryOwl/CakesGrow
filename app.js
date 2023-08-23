@@ -169,6 +169,39 @@ app.get('/ingredients/:dishId', (req, res) => {
   });
 });
 
+app.get('/add-product', (req, res) => {
+  res.render('add-product');
+});
+
+app.post('/add-product', (req, res) => {
+  const { name, cost, amount, type } = req.body;
+  // Read existing products
+  fs.readFile('./products.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading products.json:', err);
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
+
+    const products = JSON.parse(data);
+    const newProduct = { name, cost: parseFloat(cost), amount: parseFloat(amount), type };
+    products.push(newProduct);
+
+    // Write updated products back to products.json
+    fs.writeFile('./products.json', JSON.stringify(products), err => {
+      if (err) {
+        console.error('Error writing to products.json:', err);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+
+      console.log('New product added:', newProduct);
+      res.redirect('/products');
+    });
+  });
+});
+
+
 
 
 
