@@ -201,7 +201,71 @@ app.post('/add-product', (req, res) => {
   });
 });
 
+app.get('/products', (req, res) => {
+  // Read the products from products.json
+  fs.readFile('./products.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading products.json:', err);
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
 
+    const jsonData = JSON.parse(data);
+
+    res.render('products', { jsonData }); // Pass jsonData to the template
+  });
+});
+
+app.get('/update-product-details', (req, res) => {
+  // Read products from products.json
+  fs.readFile('./products.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading products.json:', err);
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
+
+    const products = JSON.parse(data);
+
+    // Render the update-product-details.ejs view and pass the products data
+    res.render('update-product-details', { products });
+  });
+});
+
+
+
+app.post('/update-product', (req, res) => {
+  const { productName, newPrice, newAmount } = req.body;
+
+  // Read the products from products.json
+  fs.readFile('./products.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading products.json:', err);
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
+
+    const products = JSON.parse(data);
+    const productToUpdate = products.find(product => product.name === productName);
+
+    if (productToUpdate) {
+      productToUpdate.cost = newPrice;
+      productToUpdate.amount = newAmount;
+
+      // Write the updated products back to products.json
+      fs.writeFile('./products.json', JSON.stringify(products, null, 2), err => {
+        if (err) {
+          console.error('Error writing to products.json:', err);
+          res.status(500).json({ error: 'Internal server error' });
+        } else {
+          res.json({ message: 'Product details updated successfully' });
+        }
+      });
+    } else {
+      res.status(404).json({ error: 'Product not found' });
+    }
+  });
+});
 
 
 

@@ -26,3 +26,30 @@ function renderIngredients(ingredients) {
   return html;
 }
 
+document.getElementById('update-form').addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const productSelect = document.getElementById('update-product');
+  const newPriceInput = document.getElementById('new-price');
+  const newAmountInput = document.getElementById('new-amount');
+  const updateMessage = document.getElementById('update-message');
+
+  const productName = productSelect.value;
+  const newPrice = parseFloat(newPriceInput.value);
+  const newAmount = parseFloat(newAmountInput.value);
+
+  try {
+    const response = await axios.post('/update-product', {
+      productName: productName,
+      newPrice: newPrice,
+      newAmount: newAmount,
+    });
+
+    updateMessage.innerHTML = 'Product details updated successfully!';
+  } catch (error) {
+    updateMessage.innerHTML = 'Error updating product details.';
+    console.error('Error updating product:', error);
+  }
+});
+
+
