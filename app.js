@@ -216,6 +216,12 @@ app.get('/products', (req, res) => {
   });
 });
 
+
+app.get('/update-product-details/:productName', (req, res) => {
+  const productName = req.params.productName;
+  res.render('update-product-details', { productName }); // Pass productName as a local variable
+});
+
 app.get('/update-product-details', (req, res) => {
   // Read products from products.json
   fs.readFile('./products.json', 'utf8', (err, data) => {
@@ -234,10 +240,12 @@ app.get('/update-product-details', (req, res) => {
 
 
 
-app.post('/update-product', (req, res) => {
-  const { productName, newPrice, newAmount } = req.body;
+app.post('/update-product/:productName', (req, res) => {
+  const productName = req.params.productName;
+  const newCost = req.body.newCost;
+  const newAmount = req.body.newAmount;
 
-  // Read the products from products.json
+  // Read products from products.json
   fs.readFile('./products.json', 'utf8', (err, data) => {
     if (err) {
       console.error('Error reading products.json:', err);
@@ -246,26 +254,30 @@ app.post('/update-product', (req, res) => {
     }
 
     const products = JSON.parse(data);
-    const productToUpdate = products.find(product => product.name === productName);
 
-    if (productToUpdate) {
-      productToUpdate.cost = newPrice;
-      productToUpdate.amount = newAmount;
+    // Find the product by name and update its details
+    const updatedProducts = products.map(product => {
+      if (product.name === productName) {
+        product.cost = newCost;
+        product.amount = newAmount;
+      }
+      return product;
+    });
 
-      // Write the updated products back to products.json
-      fs.writeFile('./products.json', JSON.stringify(products, null, 2), err => {
-        if (err) {
-          console.error('Error writing to products.json:', err);
-          res.status(500).json({ error: 'Internal server error' });
-        } else {
-          res.json({ message: 'Product details updated successfully' });
-        }
-      });
-    } else {
-      res.status(404).json({ error: 'Product not found' });
-    }
+    // Write the updated products back to products.json
+    fs.writeFile('./products.json', JSON.stringify(updatedProducts, null, 2), err => {
+      if (err) {
+        console.error('Error writing to products.json:', err);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+
+      // Redirect back to the products page or display a success message
+      res.redirect('/products');
+    });
   });
 });
+
 
 
 

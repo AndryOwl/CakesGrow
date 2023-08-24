@@ -7,23 +7,55 @@
 </head>
 <body>
 <h2>Update Product Details</h2>
-<form id="update-form">
-  <label for="update-product">Select a Product:</label>
-  <select id="update-product" name="product">
+<form id="update-form" action="/update-product" method="POST">
+  <label for="update-product">Выберете продукт для изменения:</label>
+  <select id="update-product-select" name="product">
     <!-- Populate options with product names -->
     <% products.forEach(product => { %>
       <option value="<%= product.name %>"><%= product.name %></option>
     <% }); %>
   </select>
-  <label for="new-price">Новая цена:</label>
-  <input type="number" id="new-price" name="newPrice" required>
+  <label for="new-cost">Новая цена:</label>
+  <input type="number" id="new-cost" name="newCost" required>
   <label for="new-amount">Новое Кол-во:</label>
   <input type="number" id="new-amount" name="newAmount" required>
-  <button type="submit">Обновить</button>
+  <button id="update-button" type="button">Обновить</button>
 </form>
 
 <br>
 <a href="/products">Вернуться к списку Продуктов</a>
-
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const updateButton = document.getElementById('update-button');
+    const selectProduct = document.getElementById('update-product-select');
+    const newCostInput = document.getElementById('new-cost');
+    const newAmountInput = document.getElementById('new-amount');
+  
+    updateButton.addEventListener('click', async () => {
+      const selectedProduct = selectProduct.value;
+      const newCost = newCostInput.value;
+      const newAmount = newAmountInput.value;
+  
+      const response = await fetch(`/update-product/${selectedProduct}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ newCost, newAmount }),
+      });
+  
+      if (response.ok) {
+        // Handle successful update
+        // Redirect or show a success message
+        window.location.href = '/products'; // Redirect to the products page
+      } else {
+        // Handle error
+        // Show an error message
+        console.error('Error updating product');
+      }
+    });
+  });
+  </script>
+  
 </body>
 </html>
